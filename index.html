@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
   <script>
-    // Initialize dark mode early to prevent screen flash
+    // Initialize dark mode early to prevent a flash of the wrong theme.
     (function () {
       var prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
       if (prefersDark) {
@@ -17,7 +17,8 @@
   <title>LectureSafe - Attendance Calculator</title>
 
   <meta name="description" content="LectureSafe is a private attendance calculator for students to check attendance percentage, safe misses, and target recovery classes." />
-  <meta id="themeColorMeta" name="theme-color" content="#070a16" />
+  <meta name="color-scheme" content="light dark" />
+  <meta id="themeColorMeta" name="theme-color" content="#0e1116" />
 
   <link rel="manifest" href="manifest.json" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -25,18 +26,17 @@
   <meta name="apple-mobile-web-app-title" content="LectureSafe" />
 
   <link id="dynamicFavicon" rel="icon" href="favicon-dark.svg" type="image/svg+xml" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" rel="stylesheet" />
+
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-  <div class="bg-grid"></div>
-  <div class="noise-layer"></div>
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
-
   <header class="topbar">
-    <nav class="nav-card">
+    <nav class="nav-row" aria-label="Primary">
       <a href="#" class="brand" aria-label="LectureSafe Home">
         <span class="brand-logo brand-logo-icon" aria-hidden="true">
           <svg class="lecture-logo" viewBox="0 0 512 512" fill="none">
@@ -51,9 +51,8 @@
             <circle cx="438" cy="158" r="7" fill="#22C55E"/>
             <defs>
               <linearGradient id="navBorder" x1="52" y1="52" x2="460" y2="460" gradientUnits="userSpaceOnUse">
-                <stop stop-color="#7C3AED"/>
-                <stop offset="0.52" stop-color="#2563EB"/>
-                <stop offset="1" stop-color="#0891B2"/>
+                <stop stop-color="#25417A"/>
+                <stop offset="1" stop-color="#5B7CC2"/>
               </linearGradient>
             </defs>
           </svg>
@@ -62,12 +61,12 @@
       </a>
 
       <div class="nav-actions">
-        <button id="installAppBtn" class="safe-chip install-btn" style="display: none;" type="button">
-          ↓ Install App
+        <button id="installAppBtn" class="theme-btn theme-btn--accent" style="display: none;" type="button">
+          <span aria-hidden="true">↓</span> Install App
         </button>
-        <span class="safe-chip">Private Calculator</span>
-        <button id="themeToggle" class="theme-btn" type="button">
-          <span id="themeIcon">☀️</span>
+        <span class="nav-tag">Private Calculator</span>
+        <button id="themeToggle" class="theme-btn" type="button" aria-pressed="false">
+          <span id="themeIcon" aria-hidden="true">☀️</span>
           <span id="themeText">Light</span>
         </button>
       </div>
@@ -85,38 +84,50 @@
           Calculate your current attendance, check safe misses, and know how many
           classes you need to attend to reach your target.
         </p>
-        <div class="hero-points">
-          <div class="point-card">
-            <strong>No Login</strong>
-            <span>No account required</span>
-          </div>
-          <div class="point-card">
-            <strong>Private</strong>
-            <span>Your data stays in browser</span>
-          </div>
-          <div class="point-card">
-            <strong>Safe Misses</strong>
-            <span>Know your safe limit</span>
-          </div>
-          <div class="point-card">
-            <strong>Fast Result</strong>
-            <span>Instant calculation</span>
-          </div>
+      </div>
+
+      <div class="hero-points">
+        <div class="point-card">
+          <svg class="point-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="4" y="9" width="10" height="8" rx="1.5"/>
+            <path d="M6.5 9V6.5a3 3 0 0 1 5.7-1.3"/>
+          </svg>
+          <strong>No Login</strong>
+          <span>No account required</span>
         </div>
-        <div class="hero-action-wrap">
-          <div class="start-mini-popup">
-            <span class="popup-dot"></span>
-            Check your attendance and safe misses
-          </div>
-          <button id="startPlanningBtn" class="hero-btn" type="button">
-            Start Calculating
-            <span>↓</span>
-          </button>
+        <div class="point-card">
+          <svg class="point-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="4" y="9" width="12" height="8" rx="1.5"/>
+            <path d="M6.5 9V6.5a3.5 3.5 0 0 1 7 0V9"/>
+          </svg>
+          <strong>Private</strong>
+          <span>Your data stays in browser</span>
+        </div>
+        <div class="point-card">
+          <svg class="point-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3.5" y="4.5" width="13" height="12" rx="1.5"/>
+            <path d="M3.5 8h13M7 3v3M13 3v3M7 12l2 2 4-4"/>
+          </svg>
+          <strong>Safe Misses</strong>
+          <span>Know your safe limit</span>
+        </div>
+        <div class="point-card">
+          <svg class="point-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M11 2.5 4.5 11.5h4L8 17.5l7-9.5h-4z"/>
+          </svg>
+          <strong>Fast Result</strong>
+          <span>Instant calculation</span>
         </div>
       </div>
+
+      <div class="hero-actions">
+        <button id="startPlanningBtn" class="btn btn--primary" type="button">
+          Start Calculating <span aria-hidden="true">↓</span>
+        </button>
+      </div>
     </section>
-    
-    <section class="motivation-strip">
+
+    <section class="motivation-strip" aria-label="Reminders">
       <div class="motivation-track">
         <span>Calculate attendance responsibly.</span>
         <span>Check safe misses smartly.</span>
@@ -149,27 +160,27 @@
 
           <div class="input-group">
             <label for="requiredPercentage">Minimum attendance percentage required</label>
-            <input id="requiredPercentage" type="number" min="1" max="100" step="0.1" placeholder="Example: 75, 80, 90" />
+            <input id="requiredPercentage" type="number" inputmode="decimal" min="1" max="100" step="0.1" placeholder="Example: 75, 80, 90" />
           </div>
 
           <div class="input-group">
             <label for="totalHeld">Total lectures/classes held so far</label>
-            <input id="totalHeld" type="number" min="1" step="1" placeholder="Example: 20" />
+            <input id="totalHeld" type="number" inputmode="numeric" min="1" step="1" placeholder="Example: 20" />
           </div>
 
           <div class="input-group">
             <label for="attended">Lectures/classes attended so far</label>
-            <input id="attended" type="number" min="0" step="1" placeholder="Example: 18" />
+            <input id="attended" type="number" inputmode="numeric" min="0" step="1" placeholder="Example: 18" />
           </div>
 
-          <div id="errorBox" class="error-box"></div>
+          <div id="errorBox" class="error-box" role="alert"></div>
 
           <div class="button-row">
-            <button id="calculateBtn" class="calculate-btn" type="submit">
+            <button id="calculateBtn" class="btn btn--primary calculate-btn" type="submit">
               <span class="btn-text">Calculate Result</span>
-              <span class="btn-loader"></span>
+              <span class="btn-loader" aria-hidden="true"></span>
             </button>
-            <button id="resetBtn" class="reset-btn" type="button">Reset</button>
+            <button id="resetBtn" class="btn btn--secondary" type="button">Reset</button>
           </div>
 
           <div class="privacy-box">
@@ -225,19 +236,20 @@
       </div>
     </section>
 
-    <section class="info-section">
-      <div class="info-card">
-        <span>01</span>
+    <section class="info-section" aria-labelledby="legendHeading">
+      <h2 id="legendHeading" class="sr-only">How to read your result</h2>
+      <div class="info-card dot-safe">
+        <span class="info-dot" aria-hidden="true"></span>
         <h3>Safe Zone</h3>
         <p>Your attendance is equal to or above the required percentage.</p>
       </div>
-      <div class="info-card">
-        <span>02</span>
+      <div class="info-card dot-neutral">
+        <span class="info-dot" aria-hidden="true"></span>
         <h3>Safe Misses</h3>
         <p>Shows how many upcoming classes you can still miss without going below your target.</p>
       </div>
-      <div class="info-card">
-        <span>03</span>
+      <div class="info-card dot-danger">
+        <span class="info-dot" aria-hidden="true"></span>
         <h3>Recovery Classes</h3>
         <p>If your attendance is low, it shows how many classes you need to attend to recover.</p>
       </div>
@@ -255,11 +267,11 @@
   </main>
 
   <footer class="footer">
-    <p>LectureSafe • Private Attendance Calculator • Designed & built by Garv Budhiraja</p>
+    <p>LectureSafe • Private Attendance Calculator • Designed &amp; built by Garv Budhiraja</p>
   </footer>
 
   <script src="script.js"></script>
-  
+
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
