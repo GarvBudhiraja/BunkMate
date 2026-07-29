@@ -1,4 +1,4 @@
-const CACHE_NAME = 'lecturesafe-v1';
+const CACHE_NAME = 'lecturesafe-v2';
 
 // List of files to cache for offline access
 const urlsToCache = [
