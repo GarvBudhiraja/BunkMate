@@ -50,6 +50,7 @@ function updateThemeButton() {
 
   themeIcon.textContent = dark ? "☀️" : "🌙";
   themeText.textContent = dark ? "Light" : "Dark";
+  themeToggle.setAttribute("aria-pressed", dark ? "true" : "false");
 }
 
 function updateFavicon() {
@@ -65,9 +66,10 @@ function updateFavicon() {
 function updateThemeColor() {
   if (!themeColorMeta) return;
 
+  // Kept in sync with the --bg token in style.css for each theme.
   themeColorMeta.setAttribute(
     "content",
-    isDarkMode() ? "#070a16" : "#f7f8ff"
+    isDarkMode() ? "#0e1116" : "#f7f8fa"
   );
 }
 
@@ -295,6 +297,9 @@ function calculateAttendance() {
 
   progressLabel.textContent = `${currentPercentage.toFixed(2)}%`;
   progressFill.style.width = `${Math.min(currentPercentage, 100)}%`;
+  // Presentational only: mirrors the badge color so the bar and the
+  // status read as one system. Does not affect any calculated value.
+  progressFill.className = `progress-fill ${zone.className}`;
 
   zoneBadge.textContent = zone.name;
   zoneBadge.className = `zone-badge ${zone.className}`;
@@ -342,6 +347,7 @@ function resetCalculator() {
 
   progressLabel.textContent = "0%";
   progressFill.style.width = "0%";
+  progressFill.className = "progress-fill";
 
   zoneBadge.textContent = "Ready";
   zoneBadge.className = "zone-badge neutral";
@@ -391,7 +397,7 @@ const installAppBtn = document.getElementById('installAppBtn');
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  
+
   if (installAppBtn) {
     installAppBtn.style.display = 'inline-flex';
   }
@@ -401,10 +407,10 @@ window.addEventListener('beforeinstallprompt', (e) => {
 if (installAppBtn) {
   installAppBtn.addEventListener('click', async () => {
     if (!deferredPrompt) return;
-    
+
     deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
-    
+
     if (outcome === 'accepted') {
       installAppBtn.style.display = 'none';
     }
@@ -418,19 +424,4 @@ window.addEventListener('appinstalled', () => {
     installAppBtn.style.display = 'none';
   }
   deferredPrompt = null;
-});
-
-// --- Entry Animation Trigger ---
-
-window.addEventListener('load', () => {
- 
-  const hiddenElements = document.querySelectorAll('.animate-hidden');
-
-
-  setTimeout(() => {
-    hiddenElements.forEach((el) => {
-      
-      el.classList.add('entry-animate');
-    });
-  }, 100);
 });
