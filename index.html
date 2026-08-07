@@ -75,126 +75,82 @@
 
   <main>
     <section class="hero-section">
-      <div class="hero-center">
-        <h1 class="hero-title">
-          <span class="title-main">Lecture</span><span class="title-accent">Safe</span>
-          <small>Attendance Calculator</small>
-        </h1>
-        <p class="hero-subtitle">
-          Calculate your current attendance, check safe misses, and know how many
-          classes you need to attend to reach your target.
-        </p>
-      </div>
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="hero-eyebrow">Private attendance calculator</p>
+          <h1 class="hero-title">
+            Know exactly<br />
+            where you <span class="title-accent">stand.</span>
+          </h1>
+          <p class="hero-subtitle">
+            Enter your numbers, get your safe misses. No spreadsheets,
+            no guesswork, no account.
+          </p>
 
-      <div class="hero-points">
-        <div class="point-card">
-          <svg class="point-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="4" y="9" width="10" height="8" rx="1.5"/>
-            <path d="M6.5 9V6.5a3 3 0 0 1 5.7-1.3"/>
-          </svg>
-          <strong>No Login</strong>
-          <span>No account required</span>
+          <div class="hero-actions">
+            <button id="startPlanningBtn" class="btn btn--primary" type="button">
+              Calculate my attendance
+            </button>
+            <span class="hero-meta">No login · No tracking · Runs in your browser</span>
+          </div>
         </div>
-        <div class="point-card">
-          <svg class="point-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="4" y="9" width="12" height="8" rx="1.5"/>
-            <path d="M6.5 9V6.5a3.5 3.5 0 0 1 7 0V9"/>
-          </svg>
-          <strong>Private</strong>
-          <span>Your data stays in browser</span>
-        </div>
-        <div class="point-card">
-          <svg class="point-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="3.5" y="4.5" width="13" height="12" rx="1.5"/>
-            <path d="M3.5 8h13M7 3v3M13 3v3M7 12l2 2 4-4"/>
-          </svg>
-          <strong>Safe Misses</strong>
-          <span>Know your safe limit</span>
-        </div>
-        <div class="point-card">
-          <svg class="point-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M11 2.5 4.5 11.5h4L8 17.5l7-9.5h-4z"/>
-          </svg>
-          <strong>Fast Result</strong>
-          <span>Instant calculation</span>
-        </div>
-      </div>
 
-      <div class="hero-actions">
-        <button id="startPlanningBtn" class="btn btn--primary" type="button">
-          Start Calculating <span aria-hidden="true">↓</span>
-        </button>
-      </div>
-    </section>
-
-    <section class="motivation-strip" aria-label="Reminders">
-      <div class="motivation-track">
-        <span>Calculate attendance responsibly.</span>
-        <span>Check safe misses smartly.</span>
-        <span>Use official records for best accuracy.</span>
-        <span>Stay above your attendance target.</span>
-        <span>Your data never leaves your browser.</span>
-        <span>Calculate attendance responsibly.</span>
-        <span>Check safe misses smartly.</span>
-        <span>Use official records for best accuracy.</span>
-        <span>Stay above your attendance target.</span>
-        <span>Your data never leaves your browser.</span>
+        <div class="hero-visual" aria-hidden="true">
+          <svg class="hero-ring" viewBox="0 0 320 320">
+            <circle class="hero-ring-track" cx="160" cy="160" r="132" />
+            <circle class="hero-ring-fill" cx="160" cy="160" r="132" />
+          </svg>
+          <div class="hero-visual-label">
+            <span class="hero-visual-number">92<small>%</small></span>
+            <span class="hero-visual-sub">sample attendance</span>
+          </div>
+        </div>
       </div>
     </section>
 
     <section id="calculator" class="calculator-section">
       <div class="section-heading">
-        <p>Attendance Calculator</p>
-        <h2>Check your safe misses</h2>
-        <span>Enter your target percentage and current lecture count to calculate your attendance status.</span>
+        <p>The calculator</p>
+        <h2>Two numbers in, your answer out</h2>
       </div>
 
-      <div id="calculatorShell" class="calculator-shell">
-        <form id="attendanceForm" class="form-card" novalidate>
-          <div class="card-heading">
-            <div>
-              <p>Attendance Details</p>
-              <h3>Enter Your Numbers</h3>
+      <div id="calculatorShell" class="instrument">
+        <form id="attendanceForm" class="instrument-inputs" novalidate>
+          <div class="input-group">
+            <label for="requiredPercentage">Minimum attendance required</label>
+            <div class="input-shell">
+              <input id="requiredPercentage" type="number" inputmode="decimal" min="1" max="100" step="0.1" placeholder="75" />
+              <span class="input-suffix">%</span>
             </div>
           </div>
 
           <div class="input-group">
-            <label for="requiredPercentage">Minimum attendance percentage required</label>
-            <input id="requiredPercentage" type="number" inputmode="decimal" min="1" max="100" step="0.1" placeholder="Example: 75, 80, 90" />
+            <label for="totalHeld">Classes held so far</label>
+            <input id="totalHeld" type="number" inputmode="numeric" min="1" step="1" placeholder="20" />
           </div>
 
           <div class="input-group">
-            <label for="totalHeld">Total lectures/classes held so far</label>
-            <input id="totalHeld" type="number" inputmode="numeric" min="1" step="1" placeholder="Example: 20" />
-          </div>
-
-          <div class="input-group">
-            <label for="attended">Lectures/classes attended so far</label>
-            <input id="attended" type="number" inputmode="numeric" min="0" step="1" placeholder="Example: 18" />
+            <label for="attended">Classes you attended</label>
+            <input id="attended" type="number" inputmode="numeric" min="0" step="1" placeholder="18" />
           </div>
 
           <div id="errorBox" class="error-box" role="alert"></div>
 
           <div class="button-row">
             <button id="calculateBtn" class="btn btn--primary calculate-btn" type="submit">
-              <span class="btn-text">Calculate Result</span>
+              <span class="btn-text">Calculate</span>
               <span class="btn-loader" aria-hidden="true"></span>
             </button>
             <button id="resetBtn" class="btn btn--secondary" type="button">Reset</button>
           </div>
 
-          <div class="privacy-box">
-            <strong>Private by Design</strong>
-            <p>No login. No API. No tracking. Your numbers are calculated only inside your browser.</p>
-          </div>
+          <p class="instrument-note">Numbers stay in your browser — nothing is sent anywhere.</p>
         </form>
 
-        <section id="resultCard" class="result-card waiting" aria-live="polite">
-          <div class="card-heading">
-            <div>
-              <p>Result Summary</p>
-              <h3>Attendance Status</h3>
-            </div>
+        <div class="instrument-divider" aria-hidden="true"></div>
+
+        <section id="resultCard" class="instrument-result waiting" aria-live="polite">
+          <div class="result-top">
             <span id="zoneBadge" class="zone-badge neutral">Ready</span>
           </div>
 
@@ -209,29 +165,26 @@
                 <span id="progressLabel" class="ring-sublabel">current</span>
               </div>
             </div>
-            <div class="main-result-text">
-              <span>Current Attendance</span>
-              <p id="statusLine">Fill the form and press calculate.</p>
-            </div>
+            <p id="statusLine" class="status-line">Fill the form and calculate.</p>
           </div>
 
-          <div class="stats-grid">
-            <div class="stat-card">
-              <span>Classes missed so far</span>
-              <strong id="missedClasses">--</strong>
+          <dl class="ledger">
+            <div class="ledger-row">
+              <dt>Classes missed so far</dt>
+              <dd id="missedClasses">--</dd>
             </div>
-            <div class="stat-card">
-              <span>Safe misses available</span>
-              <strong id="safeMisses">--</strong>
+            <div class="ledger-row">
+              <dt>Safe misses available</dt>
+              <dd id="safeMisses">--</dd>
             </div>
-            <div class="stat-card wide">
-              <span>Classes needed to reach target</span>
-              <strong id="neededClasses">--</strong>
+            <div class="ledger-row">
+              <dt>Classes needed to reach target</dt>
+              <dd id="neededClasses">--</dd>
             </div>
-          </div>
+          </dl>
 
           <div id="adviceBox" class="advice-box">
-            Tip: Use your official attendance portal numbers for the most accurate result.
+            Tip: use your official attendance portal numbers for the most accurate result.
           </div>
         </section>
       </div>
@@ -239,36 +192,29 @@
 
     <section class="info-section" aria-labelledby="legendHeading">
       <h2 id="legendHeading" class="sr-only">How to read your result</h2>
-      <div class="info-card dot-safe">
+      <div class="legend-row dot-safe">
         <span class="info-dot" aria-hidden="true"></span>
-        <h3>Safe Zone</h3>
-        <p>Your attendance is equal to or above the required percentage.</p>
+        <h3>Safe zone</h3>
+        <p>Your attendance is at or above the required percentage.</p>
       </div>
-      <div class="info-card dot-neutral">
+      <div class="legend-row dot-neutral">
         <span class="info-dot" aria-hidden="true"></span>
-        <h3>Safe Misses</h3>
-        <p>Shows how many upcoming classes you can still miss without going below your target.</p>
+        <h3>Safe misses</h3>
+        <p>How many upcoming classes you can still miss without dropping below target.</p>
       </div>
-      <div class="info-card dot-danger">
+      <div class="legend-row dot-danger">
         <span class="info-dot" aria-hidden="true"></span>
-        <h3>Recovery Classes</h3>
-        <p>If your attendance is low, it shows how many classes you need to attend to recover.</p>
-      </div>
-    </section>
-
-    <section class="disclaimer-section">
-      <div class="disclaimer-card">
-        <h2>Important Disclaimer</h2>
-        <p>
-          LectureSafe is only an attendance calculation helper. Final attendance depends on official
-          university or college records. Use this tool for responsible planning only.
-        </p>
+        <h3>Recovery classes</h3>
+        <p>If you're below target, how many classes you need to attend to recover.</p>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <p>LectureSafe • Private Attendance Calculator • Designed &amp; built by Garv Budhiraja</p>
+    <p class="footer-disclaimer">
+      LectureSafe is an attendance helper — final numbers depend on your official college records.
+    </p>
+    <p class="footer-credit">LectureSafe • Private Attendance Calculator • Designed &amp; built by Garv Budhiraja</p>
   </footer>
 
   <script src="script.js"></script>
