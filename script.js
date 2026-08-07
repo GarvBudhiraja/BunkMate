@@ -41,6 +41,76 @@ const calculatorShell = document.getElementById("calculatorShell");
 const systemTheme = window.matchMedia("(prefers-color-scheme: dark)");
 let userChangedTheme = false;
 
+// Ring circumference for r=64 (2 * PI * 64), matches stroke-dasharray in CSS.
+const RING_CIRCUMFERENCE = 402;
+
+function setRingProgress(percentage) {
+  const clamped = Math.max(0, Math.min(100, percentage));
+  const offset = RING_CIRCUMFERENCE - (clamped / 100) * RING_CIRCUMFERENCE;
+  progressFill.style.strokeDashoffset = String(offset);
+}
+
+function animateCount(el, toValue, suffix, duration) {
+  const from = 0;
+  const start = performance.now();
+  const dur = duration || 700;
+
+  function tick(now) {
+    const t = Math.min(1, (now - start) / dur);
+    // ease-out cubic
+    const eased = 1 - Math.pow(1 - t, 3);
+    const value = from + (toValue - from) * eased;
+    el.textContent = `${value.toFixed(2)}${suffix}`;
+    if (t < 1) {
+      requestAnimationFrame(tick);
+    } else {
+      el.textContent = `${toValue.toFixed(2)}${suffix}`;
+    }
+  }
+
+  requestAnimationFrame(tick);
+}
+
+function detectPlatform() {
+  const ua = navigator.userAgent || "";
+  const isStandalone =
+    window.matchMedia("(display-mode: standalone)").matches ||
+    window.navigator.standalone === true;
+
+  let platform = "desktop";
+  if (/iPhone|iPad|iPod/.test(ua)) {
+    platform = "ios";
+  } else if (/Android/.test(ua)) {
+    platform = "android";
+  }
+
+  document.documentElement.classList.add(`platform-${platform}`);
+  document.documentElement.classList.toggle("is-standalone", isStandalone);
+  return platform;
+}
+
+function attachRipple(selector) {
+  document.querySelectorAll(selector).forEach(function (el) {
+    el.addEventListener("pointerdown", function (event) {
+      if (!document.documentElement.classList.contains("platform-android")) return;
+
+      const rect = el.getBoundingClientRect();
+      const ripple = document.createElement("span");
+      const size = Math.max(rect.width, rect.height) * 1.4;
+
+      ripple.className = "ripple";
+      ripple.style.width = ripple.style.height = `${size}px`;
+      ripple.style.left = `${event.clientX - rect.left - size / 2}px`;
+      ripple.style.top = `${event.clientY - rect.top - size / 2}px`;
+
+      el.appendChild(ripple);
+      ripple.addEventListener("animationend", function () {
+        ripple.remove();
+      });
+    });
+  });
+}
+
 function isDarkMode() {
   return document.documentElement.classList.contains("dark-mode");
 }
@@ -292,14 +362,14 @@ function calculateAttendance() {
 
   const zone = getZone(currentPercentage, requiredPercentage);
 
-  currentAttendanceText.textContent = `${currentPercentage.toFixed(2)}%`;
+  animateCount(currentAttendanceText, currentPercentage, "%");
   statusLine.textContent = zone.status;
 
-  progressLabel.textContent = `${currentPercentage.toFixed(2)}%`;
-  progressFill.style.width = `${Math.min(currentPercentage, 100)}%`;
-  // Presentational only: mirrors the badge color so the bar and the
+  progressLabel.textContent = `of ${requiredPercentage}% target`;
+  setRingProgress(currentPercentage);
+  // Presentational only: mirrors the badge color so the ring and the
   // status read as one system. Does not affect any calculated value.
-  progressFill.className = `progress-fill ${zone.className}`;
+  progressFill.className = `ring-fill ${zone.className}`;
 
   zoneBadge.textContent = zone.name;
   zoneBadge.className = `zone-badge ${zone.className}`;
@@ -320,6 +390,8 @@ function calculateAttendance() {
 
     adviceBox.textContent = `${zone.advice} ${motivation}`;
   }
+
+  adviceBox.className = `advice-box ${zone.className}`;
 
   resultCard.classList.remove("waiting");
   liftResultCard();
@@ -345,9 +417,9 @@ function resetCalculator() {
   currentAttendanceText.textContent = "--%";
   statusLine.textContent = "Fill the form and press calculate.";
 
-  progressLabel.textContent = "0%";
-  progressFill.style.width = "0%";
-  progressFill.className = "progress-fill";
+  progressLabel.textContent = "current";
+  setRingProgress(0);
+  progressFill.className = "ring-fill";
 
   zoneBadge.textContent = "Ready";
   zoneBadge.className = "zone-badge neutral";
@@ -358,6 +430,7 @@ function resetCalculator() {
 
   adviceBox.textContent =
     "Tip: Use your official attendance portal numbers for the most accurate result.";
+  adviceBox.className = "advice-box";
 
   resultCard.classList.add("waiting");
   resultCard.classList.remove("result-animate");
@@ -388,6 +461,8 @@ systemTheme.addEventListener("change", function (event) {
 
 
 applyTheme(systemTheme.matches);
+detectPlatform();
+attachRipple(".btn, .theme-btn, .point-card, .info-card");
 
 // --- Custom PWA Install Prompt ---
 let deferredPrompt;
