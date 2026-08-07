@@ -29,7 +29,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -199,18 +199,19 @@
           </div>
 
           <div class="main-result">
-            <span>Current Attendance</span>
-            <strong id="currentAttendance">--%</strong>
-            <p id="statusLine">Fill the form and press calculate.</p>
-          </div>
-
-          <div class="progress-area">
-            <div class="progress-top">
-              <span>Attendance Progress</span>
-              <strong id="progressLabel">0%</strong>
+            <div class="ring-wrap">
+              <svg class="ring-svg" viewBox="0 0 148 148" aria-hidden="true">
+                <circle class="ring-track" cx="74" cy="74" r="64" />
+                <circle id="progressFill" class="ring-fill" cx="74" cy="74" r="64" />
+              </svg>
+              <div class="ring-center">
+                <span id="currentAttendance" class="ring-value">--%</span>
+                <span id="progressLabel" class="ring-sublabel">current</span>
+              </div>
             </div>
-            <div class="progress-track">
-              <div id="progressFill" class="progress-fill"></div>
+            <div class="main-result-text">
+              <span>Current Attendance</span>
+              <p id="statusLine">Fill the form and press calculate.</p>
             </div>
           </div>
 
