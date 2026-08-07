@@ -1,100 +1,134 @@
 /* =============================================================
    LectureSafe — Design System & Styles
    -------------------------------------------------------------
+   Direction: quiet, premium, monochrome-first with one signal
+   accent. Numbers are the product, so numbers get their own
+   typeface (mono) and their own moment (the ring). Everything
+   else stays out of the way.
+
    Table of contents:
-     1.  Design tokens (color, type, radius, shadow, spacing)
+     1.  Design tokens
      2.  Reset & base
      3.  Accessibility utilities
-     4.  Background
+     4.  Background & platform chrome
      5.  Navigation
      6.  Buttons
      7.  Hero
      8.  Feature list
      9.  Ticker (motivation strip)
      10. Calculator section (form + result)
-     11. Info cards (result legend)
-     12. Disclaimer & footer
-     13. Motion
-     14. Responsive: tablet
-     15. Responsive: mobile
-     16. Responsive: small mobile
-     17. Reduced motion
+     11. Attendance ring (signature element)
+     12. Info cards (result legend)
+     13. Disclaimer & footer
+     14. Motion
+     15. Responsive
+     16. Reduced motion
 ============================================================= */
 
 /* -------------------------------------------------------------
    1. Design tokens
-   One palette, reused everywhere. Status colors (safe/warning/
-   danger) are theme-adaptive because a shade that reads clearly
-   on white can lose contrast on near-black, and vice versa.
-   The primary button color is intentionally fixed across themes
-   so the call-to-action stays recognizable everywhere.
 ----------------------------------------------------------------*/
 :root {
-  /* Surfaces & text */
-  --bg: #f7f8fa;
+  /* Surfaces & text — cool paper, not the warm-cream default */
+  --bg: #f6f6f4;
   --surface: #ffffff;
-  --surface-muted: #eef0f4;
-  --border: #e2e5ea;
-  --border-strong: #cbd2dc;
-  --text: #12151c;
-  --text-muted: #5b6472;
+  --surface-muted: #eeede8;
+  --surface-sunken: #f0efeb;
+  --border: #e2e0d9;
+  --border-strong: #cac6bb;
+  --text: #14151a;
+  --text-muted: #6a6c73;
+  --text-faint: #9a9ba1;
 
-  /* Brand */
-  --primary: #25417a;
-  --primary-tint: #ebeff8;
+  /* Brand accent — a single confident signal color */
+  --accent: #2f4cd6;
+  --accent-strong: #1f37a8;
+  --accent-tint: #eaedfb;
+  --accent-tint-strong: #dbe0f8;
 
-  /* Status */
-  --safe: #137a45;
-  --safe-bg: #e7f4ec;
-  --warning: #8a5a0a;
-  --warning-bg: #fbf1df;
-  --danger: #b3261e;
-  --danger-bg: #fbe9e7;
+  /* Status — tuned to stay legible in both themes, echoes logo green */
+  --safe: #147a4a;
+  --safe-ring: #22c55e;
+  --safe-bg: #e7f5ec;
+  --warning: #92620a;
+  --warning-ring: #e3a83b;
+  --warning-bg: #faf1dd;
+  --danger: #ab2f24;
+  --danger-ring: #ef6b60;
+  --danger-bg: #fbe9e6;
 
-  /* Fixed brand button (same in both themes) */
-  --btn-primary-bg: #25417a;
-  --btn-primary-bg-hover: #1b3161;
+  /* Fixed brand button — same across themes so the CTA never wavers */
+  --btn-primary-bg: #14151a;
+  --btn-primary-bg-hover: #2a2c35;
   --btn-primary-text: #ffffff;
 
-  /* Shape */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
+  /* Shape — soft, but not bubbly */
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
   --radius-pill: 999px;
 
-  /* Elevation */
-  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.06);
-  --shadow-sm: 0 2px 10px rgba(15, 23, 42, 0.07);
+  /* Elevation — layered, no glass */
+  --shadow-xs: 0 1px 2px rgba(20, 21, 26, 0.05);
+  --shadow-sm: 0 4px 16px rgba(20, 21, 26, 0.06);
+  --shadow-md: 0 12px 32px rgba(20, 21, 26, 0.08);
+  --shadow-lg: 0 24px 64px rgba(20, 21, 26, 0.12);
 
   /* Type */
   --font-display: "Source Serif 4", Georgia, "Times New Roman", serif;
   --font-body: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-fast: 0.15s;
+  --dur-base: 0.32s;
+  --dur-slow: 0.6s;
 
   /* Layout */
   --container: 1120px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
 }
 
 html.dark-mode {
-  --bg: #0e1116;
-  --surface: #171b22;
-  --surface-muted: #1e232b;
-  --border: #2a303a;
-  --border-strong: #3a4150;
-  --text: #f4f6f9;
-  --text-muted: #a7afbd;
+  --bg: #0a0b0e;
+  --surface: #121317;
+  --surface-muted: #1a1c22;
+  --surface-sunken: #0e0f13;
+  --border: #24262e;
+  --border-strong: #35373f;
+  --text: #f4f4f2;
+  --text-muted: #9b9ca4;
+  --text-faint: #6d6e76;
 
-  --primary: #8ca3ea;
-  --primary-tint: #1b2436;
+  --accent: #7c92ff;
+  --accent-strong: #a5b4ff;
+  --accent-tint: #171b34;
+  --accent-tint-strong: #1f2544;
 
-  --safe: #54c285;
-  --safe-bg: #16301f;
-  --warning: #e3a83b;
-  --warning-bg: #362a12;
-  --danger: #ef6b60;
-  --danger-bg: #35201d;
+  --safe: #4ade80;
+  --safe-ring: #4ade80;
+  --safe-bg: #14261c;
+  --warning: #eab84d;
+  --warning-ring: #eab84d;
+  --warning-bg: #2c2311;
+  --danger: #f0847a;
+  --danger-ring: #f0847a;
+  --danger-bg: #301c1a;
 
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.32);
-  --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.36);
+  --btn-primary-bg: #f4f4f2;
+  --btn-primary-bg-hover: #ffffff;
+  --btn-primary-text: #101116;
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.38);
+  --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.42);
+  --shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.5);
 }
 
 /* -------------------------------------------------------------
@@ -125,7 +159,10 @@ body {
   line-height: 1.5;
   background: var(--bg);
   color: var(--text);
-  transition: background 0.2s ease, color 0.2s ease;
+  transition: background var(--dur-fast) ease, color var(--dur-fast) ease;
+  padding-left: var(--safe-left);
+  padding-right: var(--safe-right);
+  -webkit-font-smoothing: antialiased;
 }
 
 h1,
@@ -133,7 +170,7 @@ h2,
 h3 {
   font-family: var(--font-display);
   font-weight: 600;
-  line-height: 1.1;
+  line-height: 1.08;
 }
 
 button,
@@ -165,12 +202,16 @@ ul {
   list-style: none;
 }
 
-/* Tabular figures wherever numbers need to line up */
+/* Numbers get their own voice everywhere they appear */
 .main-result strong,
 .stat-card strong,
 #progressLabel,
+.ring-value,
+.ring-sublabel,
 .calculate-btn {
+  font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
 }
 
 /* -------------------------------------------------------------
@@ -189,23 +230,54 @@ ul {
 }
 
 :focus-visible {
-  outline: 2px solid var(--primary);
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
   border-radius: var(--radius-sm);
 }
 
 /* -------------------------------------------------------------
-   4. Background
-   A single, static, low-cost wash — no canvas, no particles,
-   no looping animation. It reads as depth, not decoration.
+   4. Background & platform chrome
+   Platform class is applied by script.js based on UA + display
+   mode. Differences are restrained: motion curve, navbar
+   material, and press feedback — not a different UI.
 ----------------------------------------------------------------*/
 body {
   background-image: radial-gradient(
-    ellipse 900px 480px at 50% -10%,
-    var(--primary-tint),
+    ellipse 1000px 520px at 50% -12%,
+    var(--accent-tint),
     transparent 60%
   );
   background-repeat: no-repeat;
+}
+
+html.platform-ios .btn,
+html.platform-ios .theme-btn {
+  transition-timing-function: var(--ease-spring);
+}
+
+html.platform-android .btn,
+html.platform-android .theme-btn,
+html.platform-android .point-card,
+html.platform-android .info-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  background: currentColor;
+  opacity: 0.18;
+  pointer-events: none;
+  animation: ripple 0.6s ease-out;
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(2.6);
+    opacity: 0;
+  }
 }
 
 /* -------------------------------------------------------------
@@ -215,7 +287,10 @@ body {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: var(--bg);
+  padding-top: var(--safe-top);
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
   border-bottom: 1px solid var(--border);
 }
 
@@ -234,21 +309,26 @@ body {
   align-items: center;
   gap: 10px;
   font-weight: 700;
+  transition: opacity var(--dur-fast) ease;
+}
+
+.brand:hover {
+  opacity: 0.75;
 }
 
 .brand-logo {
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   display: grid;
   place-items: center;
-  border-radius: var(--radius-sm);
+  border-radius: 9px;
   overflow: hidden;
   flex-shrink: 0;
 }
 
 .brand-logo-icon .lecture-logo {
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   display: block;
 }
 
@@ -277,7 +357,7 @@ html.dark-mode .logo-l {
 }
 
 .brand-text {
-  font-size: 1.02rem;
+  font-size: 1rem;
   letter-spacing: -0.01em;
   white-space: nowrap;
 }
@@ -294,8 +374,9 @@ html.dark-mode .logo-l {
   color: var(--text-muted);
   background: var(--surface-muted);
   border: 1px solid var(--border);
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 600;
+  font-family: var(--font-mono);
 }
 
 .theme-btn {
@@ -306,11 +387,11 @@ html.dark-mode .logo-l {
   color: var(--text);
   background: var(--surface);
   font-weight: 600;
-  font-size: 0.88rem;
+  font-size: 0.86rem;
   display: flex;
   align-items: center;
   gap: 6px;
-  transition: border-color 0.15s ease, background 0.15s ease;
+  transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease, transform var(--dur-fast) var(--ease-out);
 }
 
 .theme-btn:hover {
@@ -318,36 +399,39 @@ html.dark-mode .logo-l {
   background: var(--surface-muted);
 }
 
+.theme-btn:active {
+  transform: scale(0.96);
+}
+
 .theme-btn--accent {
-  border-color: var(--primary);
-  color: var(--primary);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .theme-btn--accent:hover {
-  background: var(--primary-tint);
+  background: var(--accent-tint);
 }
 
 /* -------------------------------------------------------------
    6. Buttons
-   One shared base, three roles. No shine sweeps, no gradients —
-   state is communicated with color and a small, honest elevation.
 ----------------------------------------------------------------*/
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-height: 48px;
-  padding: 13px 22px;
+  min-height: 50px;
+  padding: 14px 24px;
   border: 1px solid transparent;
   border-radius: var(--radius-md);
   font-weight: 600;
   font-size: 0.98rem;
-  transition: transform 0.12s ease, background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  transition: transform var(--dur-fast) var(--ease-spring), background var(--dur-fast) ease,
+    border-color var(--dur-fast) ease, box-shadow var(--dur-fast) ease;
 }
 
 .btn:active {
-  transform: translateY(1px);
+  transform: scale(0.97);
 }
 
 .btn--primary {
@@ -358,7 +442,8 @@ html.dark-mode .logo-l {
 
 .btn--primary:hover {
   background: var(--btn-primary-bg-hover);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
 }
 
 .btn--secondary {
@@ -378,21 +463,23 @@ html.dark-mode .logo-l {
 .hero-section {
   width: min(100% - 32px, var(--container));
   margin: 0 auto;
-  padding: 88px 0 72px;
+  padding: 100px 0 76px;
 }
 
 .hero-center {
   max-width: 760px;
+  opacity: 0;
+  animation: rise var(--dur-slow) var(--ease-out) forwards;
 }
 
 .hero-title {
-  margin-top: 16px;
-  letter-spacing: -0.01em;
+  margin-top: 18px;
+  letter-spacing: -0.02em;
 }
 
 .title-main,
 .title-accent {
-  font-size: clamp(2.6rem, 6vw, 4.4rem);
+  font-size: clamp(2.7rem, 6.4vw, 4.6rem);
 }
 
 .title-main {
@@ -400,38 +487,42 @@ html.dark-mode .logo-l {
 }
 
 .title-accent {
-  color: var(--primary);
+  color: var(--accent);
 }
 
 .hero-title small {
   display: block;
-  margin-top: 6px;
-  font-family: var(--font-body);
-  font-size: clamp(1rem, 2.4vw, 1.3rem);
+  margin-top: 8px;
+  font-family: var(--font-mono);
+  font-size: clamp(0.85rem, 2vw, 1rem);
   font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   color: var(--text-muted);
 }
 
 .hero-subtitle {
-  margin-top: 20px;
-  max-width: 620px;
+  margin-top: 22px;
+  max-width: 600px;
   color: var(--text-muted);
-  font-size: 1.05rem;
+  font-size: 1.08rem;
   line-height: 1.7;
 }
 
 .hero-actions {
-  margin-top: 32px;
+  margin-top: 36px;
   display: flex;
   align-items: center;
   gap: 16px;
+  opacity: 0;
+  animation: rise var(--dur-slow) var(--ease-out) 0.1s forwards;
 }
 
 /* -------------------------------------------------------------
    8. Feature list
 ----------------------------------------------------------------*/
 .hero-points {
-  margin-top: 56px;
+  margin-top: 60px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1px;
@@ -439,30 +530,37 @@ html.dark-mode .logo-l {
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   overflow: hidden;
+  opacity: 0;
+  animation: rise var(--dur-slow) var(--ease-out) 0.2s forwards;
 }
 
 .point-card {
-  padding: 20px;
+  padding: 22px 20px;
   background: var(--surface);
   display: flex;
   flex-direction: column;
   gap: 10px;
+  transition: background var(--dur-fast) ease;
+}
+
+.point-card:hover {
+  background: var(--surface-muted);
 }
 
 .point-icon {
   width: 20px;
   height: 20px;
-  color: var(--primary);
+  color: var(--accent);
 }
 
 .point-card strong {
-  font-size: 0.98rem;
+  font-size: 0.96rem;
   font-weight: 700;
 }
 
 .point-card span {
   color: var(--text-muted);
-  font-size: 0.88rem;
+  font-size: 0.86rem;
   line-height: 1.4;
 }
 
@@ -486,10 +584,12 @@ html.dark-mode .logo-l {
   flex-wrap: nowrap;
   gap: 40px;
   width: max-content;
-  padding: 12px 0;
+  padding: 13px 0;
   color: var(--text-muted);
-  font-size: 0.88rem;
-  font-weight: 600;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
   animation: marquee 55s linear infinite;
   will-change: transform;
 }
@@ -511,54 +611,60 @@ html.dark-mode .logo-l {
 .calculator-section {
   width: min(100% - 32px, var(--container));
   margin: 0 auto;
-  padding: 72px 0;
+  padding: 84px 0;
 }
 
 .section-heading {
   max-width: 620px;
-  margin: 0 auto 32px;
+  margin: 0 auto 36px;
 }
 
 .section-heading p {
-  color: var(--primary);
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
 .section-heading h2 {
-  margin-top: 8px;
-  font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+  margin-top: 10px;
+  font-size: clamp(1.8rem, 3.6vw, 2.5rem);
 }
 
 .section-heading span {
   display: block;
-  margin-top: 10px;
+  margin-top: 12px;
   color: var(--text-muted);
   line-height: 1.6;
 }
 
 .calculator-shell {
   display: grid;
-  grid-template-columns: 0.9fr 1.1fr;
+  grid-template-columns: 0.85fr 1.15fr;
   gap: 20px;
   align-items: start;
 }
 
 .calculator-shell.planner-pop .form-card,
 .calculator-shell.planner-pop .result-card {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px var(--primary-tint);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-tint), var(--shadow-md);
 }
 
 .form-card,
 .result-card {
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   border: 1px solid var(--border);
   background: var(--surface);
-  padding: 28px;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  padding: 30px;
+  transition: border-color var(--dur-base) ease, box-shadow var(--dur-base) ease, transform var(--dur-base) var(--ease-out);
+}
+
+.form-card:hover,
+.result-card:hover {
+  box-shadow: var(--shadow-sm);
 }
 
 .card-heading {
@@ -566,31 +672,32 @@ html.dark-mode .logo-l {
   align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 24px;
-  padding-bottom: 20px;
+  margin-bottom: 26px;
+  padding-bottom: 22px;
   border-bottom: 1px solid var(--border);
 }
 
 .card-heading p {
   color: var(--text-muted);
-  font-size: 0.8rem;
-  font-weight: 700;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.07em;
+  letter-spacing: 0.08em;
 }
 
 .card-heading h3 {
-  margin-top: 4px;
-  font-size: 1.25rem;
+  margin-top: 5px;
+  font-size: 1.3rem;
 }
 
 .input-group {
-  margin-bottom: 18px;
+  margin-bottom: 20px;
 }
 
 .input-group label {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 9px;
   font-weight: 600;
   font-size: 0.92rem;
   line-height: 1.4;
@@ -598,24 +705,27 @@ html.dark-mode .logo-l {
 
 .input-group input {
   width: 100%;
-  border: 1px solid var(--border-strong);
+  border: 1.5px solid var(--border-strong);
   outline: none;
   border-radius: var(--radius-sm);
-  padding: 13px 14px;
+  padding: 14px 15px;
   color: var(--text);
-  background: var(--bg);
+  background: var(--surface-sunken);
   font-size: 16px;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  font-family: var(--font-mono);
+  transition: border-color var(--dur-fast) ease, box-shadow var(--dur-fast) ease, background var(--dur-fast) ease;
 }
 
 .input-group input::placeholder {
   color: var(--text-muted);
-  opacity: 0.75;
+  opacity: 0.65;
+  font-family: var(--font-body);
 }
 
 .input-group input:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px var(--primary-tint);
+  border-color: var(--accent);
+  background: var(--surface);
+  box-shadow: 0 0 0 4px var(--accent-tint);
 }
 
 .error-box {
@@ -623,7 +733,7 @@ html.dark-mode .logo-l {
   align-items: flex-start;
   gap: 8px;
   margin-bottom: 16px;
-  padding: 12px 14px;
+  padding: 13px 15px;
   border-radius: var(--radius-sm);
   color: var(--danger);
   background: var(--danger-bg);
@@ -631,6 +741,7 @@ html.dark-mode .logo-l {
   font-weight: 600;
   font-size: 0.9rem;
   line-height: 1.5;
+  animation: shake 0.4s var(--ease-out);
 }
 
 .error-box.show {
@@ -647,16 +758,17 @@ html.dark-mode .logo-l {
 }
 
 .button-row .btn--secondary {
-  flex: 0.7;
+  flex: 0.65;
 }
 
 .calculate-btn {
   position: relative;
+  font-family: var(--font-body);
 }
 
 .calculate-btn .btn-text {
   opacity: 1;
-  transition: opacity 0.15s ease;
+  transition: opacity var(--dur-fast) ease;
 }
 
 .calculate-btn.is-loading .btn-text {
@@ -673,8 +785,8 @@ html.dark-mode .logo-l {
   margin-left: -9px;
   margin-top: -9px;
   border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.4);
-  border-top-color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: currentColor;
   animation: spin 0.7s linear infinite;
 }
 
@@ -683,11 +795,11 @@ html.dark-mode .logo-l {
 }
 
 .privacy-box {
-  margin-top: 20px;
-  padding: 14px 16px;
-  border-radius: var(--radius-sm);
+  margin-top: 22px;
+  padding: 15px 17px;
+  border-radius: var(--radius-md);
   border: 1px dashed var(--border-strong);
-  background: var(--surface-muted);
+  background: var(--surface-sunken);
 }
 
 .privacy-box strong {
@@ -707,12 +819,15 @@ html.dark-mode .logo-l {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 7px 12px;
+  padding: 7px 13px;
   border-radius: var(--radius-pill);
   font-weight: 700;
-  font-size: 0.84rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
   border: 1px solid transparent;
   white-space: nowrap;
+  transition: background var(--dur-base) ease, color var(--dur-base) ease, border-color var(--dur-base) ease;
 }
 
 .zone-badge::before {
@@ -749,105 +864,65 @@ html.dark-mode .logo-l {
 }
 
 .main-result {
-  padding: 22px;
-  border-radius: var(--radius-md);
-  background: var(--surface-muted);
-}
-
-.main-result span {
-  display: block;
-  color: var(--text-muted);
-  font-weight: 600;
-  font-size: 0.9rem;
-}
-
-.main-result strong {
-  display: block;
-  margin-top: 6px;
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: clamp(3rem, 6vw, 4.6rem);
-  line-height: 1;
-  letter-spacing: -0.02em;
-}
-
-.main-result p {
-  margin-top: 10px;
-  color: var(--text-muted);
-  font-weight: 500;
-  font-size: 0.92rem;
-}
-
-.result-card.waiting .main-result strong {
-  color: var(--text-muted);
-}
-
-.progress-area {
-  margin-top: 20px;
-}
-
-.progress-top {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 8px;
+  align-items: center;
+  gap: 24px;
+  padding: 8px 4px 20px;
+}
+
+.main-result-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.main-result-text span {
+  display: block;
   color: var(--text-muted);
   font-weight: 600;
   font-size: 0.88rem;
 }
 
-.progress-track {
-  height: 8px;
-  border-radius: var(--radius-pill);
-  overflow: hidden;
-  background: var(--surface-muted);
-}
-
-.progress-fill {
-  width: 0%;
-  height: 100%;
-  border-radius: var(--radius-pill);
-  background: var(--primary);
-  transition: width 0.3s ease, background 0.2s ease;
-}
-
-.progress-fill.safe {
-  background: var(--safe);
-}
-
-.progress-fill.warning {
-  background: var(--warning);
-}
-
-.progress-fill.danger {
-  background: var(--danger);
+.main-result-text p {
+  margin-top: 10px;
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 0.92rem;
+  line-height: 1.5;
 }
 
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
-  margin-top: 20px;
+  margin-top: 22px;
 }
 
 .stat-card {
-  padding: 16px;
+  padding: 17px;
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
+  background: var(--surface-sunken);
+  transition: border-color var(--dur-fast) ease;
+}
+
+.stat-card:hover {
+  border-color: var(--border-strong);
 }
 
 .stat-card span {
   display: block;
   color: var(--text-muted);
-  font-size: 0.84rem;
+  font-family: var(--font-body);
+  font-size: 0.83rem;
   font-weight: 600;
   line-height: 1.35;
 }
 
 .stat-card strong {
   display: block;
-  margin-top: 8px;
-  font-size: 1.6rem;
-  font-weight: 700;
+  margin-top: 9px;
+  font-size: 1.7rem;
+  font-weight: 600;
 }
 
 .stat-card.wide {
@@ -855,42 +930,132 @@ html.dark-mode .logo-l {
 }
 
 .advice-box {
-  margin-top: 18px;
-  padding: 16px;
-  border-radius: var(--radius-sm);
-  border-left: 3px solid var(--primary);
-  background: var(--primary-tint);
+  margin-top: 20px;
+  padding: 17px;
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--accent);
+  background: var(--accent-tint);
   color: var(--text);
   line-height: 1.6;
   font-size: 0.92rem;
+  transition: border-color var(--dur-base) ease, background var(--dur-base) ease;
+}
+
+.advice-box.safe {
+  border-left-color: var(--safe);
+  background: var(--safe-bg);
+}
+
+.advice-box.warning {
+  border-left-color: var(--warning);
+  background: var(--warning-bg);
+}
+
+.advice-box.danger {
+  border-left-color: var(--danger);
+  background: var(--danger-bg);
 }
 
 /* -------------------------------------------------------------
-   11. Info cards (result legend)
-   Each card's accent dot mirrors the badge color it explains,
-   tying this section back to the calculator's own color system
-   instead of an arbitrary 01/02/03 sequence.
+   11. Attendance ring — the signature element.
+   A single glanceable radial readout that echoes the mark in
+   the logo. Draws on with stroke-dashoffset, not opacity, so it
+   reads as construction rather than a fade.
+----------------------------------------------------------------*/
+.ring-wrap {
+  position: relative;
+  width: 148px;
+  height: 148px;
+  flex-shrink: 0;
+}
+
+.ring-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.ring-track {
+  fill: none;
+  stroke: var(--surface-muted);
+  stroke-width: 10;
+}
+
+.ring-fill {
+  fill: none;
+  stroke: var(--text-faint);
+  stroke-width: 10;
+  stroke-linecap: round;
+  stroke-dasharray: 402;
+  stroke-dashoffset: 402;
+  transition: stroke-dashoffset 1s var(--ease-out), stroke 0.4s ease;
+}
+
+.ring-fill.safe {
+  stroke: var(--safe-ring);
+}
+
+.ring-fill.warning {
+  stroke: var(--warning-ring);
+}
+
+.ring-fill.danger {
+  stroke: var(--danger-ring);
+}
+
+.ring-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.ring-value {
+  font-size: 1.7rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--text);
+}
+
+.result-card.waiting .ring-value {
+  color: var(--text-faint);
+}
+
+.ring-sublabel {
+  margin-top: 5px;
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0.03em;
+}
+
+/* -------------------------------------------------------------
+   12. Info cards (result legend)
 ----------------------------------------------------------------*/
 .info-section {
   width: min(100% - 32px, var(--container));
   margin: 0 auto;
-  padding-bottom: 72px;
+  padding-bottom: 80px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
 }
 
 .info-card {
-  padding: 26px;
+  padding: 28px;
   border-radius: var(--radius-lg);
   border: 1px solid var(--border);
   background: var(--surface);
-  transition: box-shadow 0.15s ease, border-color 0.15s ease;
+  transition: box-shadow var(--dur-base) ease, border-color var(--dur-base) ease, transform var(--dur-base) var(--ease-out);
 }
 
 .info-card:hover {
   border-color: var(--border-strong);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
 }
 
 .info-dot {
@@ -898,24 +1063,24 @@ html.dark-mode .logo-l {
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
 .info-card.dot-safe .info-dot {
-  background: var(--safe);
+  background: var(--safe-ring);
 }
 
 .info-card.dot-neutral .info-dot {
-  background: var(--primary);
+  background: var(--accent);
 }
 
 .info-card.dot-danger .info-dot {
-  background: var(--danger);
+  background: var(--danger-ring);
 }
 
 .info-card h3 {
   margin-bottom: 10px;
-  font-size: 1.1rem;
+  font-size: 1.12rem;
 }
 
 .info-card p {
@@ -925,15 +1090,15 @@ html.dark-mode .logo-l {
 }
 
 /* -------------------------------------------------------------
-   12. Disclaimer & footer
+   13. Disclaimer & footer
 ----------------------------------------------------------------*/
 .disclaimer-section {
   width: min(100% - 32px, var(--container));
-  margin: 0 auto 72px;
+  margin: 0 auto 80px;
 }
 
 .disclaimer-card {
-  padding: 24px 28px;
+  padding: 26px 30px;
   border-radius: var(--radius-lg);
   border: 1px solid var(--border);
   background: var(--surface-muted);
@@ -941,7 +1106,7 @@ html.dark-mode .logo-l {
 
 .disclaimer-card h2 {
   margin-bottom: 8px;
-  font-size: 1.15rem;
+  font-size: 1.18rem;
 }
 
 .disclaimer-card p {
@@ -953,17 +1118,15 @@ html.dark-mode .logo-l {
 .footer {
   width: min(100% - 32px, var(--container));
   margin: 0 auto;
-  padding: 28px 0 40px;
+  padding: 30px 0 calc(44px + var(--safe-bottom));
   border-top: 1px solid var(--border);
   text-align: center;
   color: var(--text-muted);
-  font-size: 0.88rem;
+  font-size: 0.86rem;
 }
 
 /* -------------------------------------------------------------
-   13. Motion
-   Kept to feedback moments only: a loading spinner, a slow
-   ticker, a brief highlight when a result updates.
+   14. Motion
 ----------------------------------------------------------------*/
 @keyframes marquee {
   from {
@@ -980,12 +1143,36 @@ html.dark-mode .logo-l {
   }
 }
 
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+@keyframes pop-scale {
+  0% { transform: scale(0.98); }
+  55% { transform: scale(1.008); }
+  100% { transform: scale(1); }
+}
+
 .result-card.result-animate {
-  border-color: var(--primary);
+  animation: pop-scale var(--dur-base) var(--ease-out);
+  border-color: var(--accent);
 }
 
 /* -------------------------------------------------------------
-   14. Responsive: tablet (768–1079px)
+   15. Responsive
 ----------------------------------------------------------------*/
 @media (max-width: 1079px) {
   .hero-points {
@@ -1001,9 +1188,13 @@ html.dark-mode .logo-l {
   }
 }
 
-/* -------------------------------------------------------------
-   15. Responsive: mobile (≤767px)
-----------------------------------------------------------------*/
+/* Tablet / foldable-unfolded band */
+@media (min-width: 600px) and (max-width: 900px) {
+  .hero-section {
+    padding: 84px 0 64px;
+  }
+}
+
 @media (max-width: 767px) {
   .nav-row {
     width: min(100% - 24px, var(--container));
@@ -1022,7 +1213,7 @@ html.dark-mode .logo-l {
 
   .hero-section {
     width: min(100% - 24px, var(--container));
-    padding: 48px 0 40px;
+    padding: 52px 0 44px;
   }
 
   .hero-actions {
@@ -1032,7 +1223,7 @@ html.dark-mode .logo-l {
   }
 
   .hero-points {
-    margin-top: 40px;
+    margin-top: 44px;
     grid-template-columns: 1fr;
   }
 
@@ -1048,17 +1239,18 @@ html.dark-mode .logo-l {
   }
 
   .calculator-section {
-    padding: 48px 0;
+    padding: 52px 0;
   }
 
   .form-card,
   .result-card {
-    padding: 20px;
+    padding: 22px;
+    border-radius: var(--radius-lg);
   }
 
   .card-heading {
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
   }
 
   .input-group input {
@@ -1075,6 +1267,16 @@ html.dark-mode .logo-l {
     flex: 1;
   }
 
+  .main-result {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .ring-wrap {
+    align-self: center;
+  }
+
   .stats-grid {
     grid-template-columns: 1fr;
   }
@@ -1085,30 +1287,50 @@ html.dark-mode .logo-l {
 
   .info-section {
     gap: 14px;
-    padding-bottom: 48px;
+    padding-bottom: 52px;
   }
 
   .disclaimer-section {
-    margin-bottom: 48px;
+    margin-bottom: 52px;
   }
 }
 
-/* -------------------------------------------------------------
-   16. Responsive: small mobile (≤390px)
-----------------------------------------------------------------*/
 @media (max-width: 390px) {
   .title-main,
   .title-accent {
-    font-size: clamp(2.1rem, 10vw, 2.8rem);
+    font-size: clamp(2.2rem, 10vw, 2.9rem);
   }
 
-  .main-result strong {
-    font-size: clamp(2.6rem, 14vw, 3.4rem);
+  .ring-wrap {
+    width: 128px;
+    height: 128px;
+  }
+
+  .ring-value {
+    font-size: 1.4rem;
+  }
+}
+
+/* Landscape phones — reclaim vertical rhythm */
+@media (max-height: 480px) and (orientation: landscape) {
+  .hero-section {
+    padding: 32px 0;
+  }
+
+  .hero-points {
+    margin-top: 28px;
+  }
+}
+
+/* Ultrawide — cap reading width, don't just stretch */
+@media (min-width: 1600px) {
+  :root {
+    --container: 1240px;
   }
 }
 
 /* -------------------------------------------------------------
-   17. Reduced motion
+   16. Reduced motion
 ----------------------------------------------------------------*/
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -1117,5 +1339,15 @@ html.dark-mode .logo-l {
     animation: none !important;
     transition: none !important;
     scroll-behavior: auto !important;
+  }
+
+  .hero-center,
+  .hero-actions,
+  .hero-points {
+    opacity: 1 !important;
+  }
+
+  .ring-fill {
+    transition: none !important;
   }
 }
